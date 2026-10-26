@@ -48,6 +48,16 @@ test("panel command is bound to leader o", async () => {
   assert.match(setup, /openspec\.stats\.panel/)
 })
 
+test("TUI refreshes from the OpenSpec loader and caches per project", async () => {
+  const tui = await readFile(join(plugin, "tui.tsx"), "utf8")
+  assert.match(tui, /loadStats/)
+  assert.match(tui, /createRefresher/)
+  assert.match(tui, /CACHE_KEY/)
+  assert.match(tui, /session\.execution\.succeeded/)
+  assert.match(tui, /30_000/)
+  assert.match(tui, /cache\.seed\(\)/)
+})
+
 test("package exports point at the plugin entrypoints", async () => {
   const raw = await readFile(join(root, "package.json"), "utf8")
   const pkg = JSON.parse(raw) as {
