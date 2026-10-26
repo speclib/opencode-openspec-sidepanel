@@ -1,11 +1,11 @@
 ---
 # opencode-openspec-sidepanel-g73f
 title: Testing and e2e proof
-status: todo
+status: completed
 type: epic
 priority: high
 created_at: 2026-10-26T17:04:56Z
-updated_at: 2026-10-26T17:05:14Z
+updated_at: 2026-10-26T18:03:18Z
 parent: opencode-openspec-sidepanel-u505
 blocked_by:
     - opencode-openspec-sidepanel-8m4e
@@ -27,3 +27,15 @@ Definition of done:
 - The OpenSpec change is archived and committed as Pim Snel.
 
 OpenSpec capability: testing.
+
+## Summary of Changes
+
+Added the end to end proof and completed the acceptance coverage.
+
+- Added `e2e/helpers/`: isolated HOME and XDG directories, temporary OpenSpec fixtures with three real changes, two specs and nine archive directories, a canned session import, a local OpenAI compatible mock provider, a Python pseudo terminal and an ANSI screen reconstructor scoped to the `OPENSPEC` sidebar region.
+- Added `e2e/openspec-sidebar.test.ts`: asserts the header, `<n> active changes`, every status count with its bar, `tasks 3/7`, `specs 2`, `requirements 5`, `archived 9`, alignment and a blank line after the total.
+- Added `e2e/openspec-live-refresh.test.ts`: holds the assistant response, creates a change with an unchecked task during the turn, releases the response and asserts `4 active changes`, `in-progress 3` and `tasks 3/8`.
+- Added `e2e/openspec-degraded.test.ts`: proves the `unavailable` line and a live TUI when the project has no OpenSpec root.
+- Added `e2e/README.md` and unit tests for the screen helpers and the prerequisite reasons.
+- `npm test`: 55 tests, 55 pass, 0 fail, 0 skipped. `npm run test:e2e`: 3 tests, 3 pass, 0 fail, 0 skipped. `npm run typecheck` clean. `nix flake check` passed. `nix build` produced all seven plugin modules.
+- OpenSpec change archived as `openspec/changes/archive/2026-10-26-testing-and-e2e-proof`; `testing` main spec has 6 requirements.
