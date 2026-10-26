@@ -26,6 +26,7 @@
   "scripts": {
     "test": "node --test \"tests/**/*.test.ts\"",
     "test:e2e": "node --test \"e2e/**/*.test.ts\"",
+    "test:package": "node scripts/verify-package.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

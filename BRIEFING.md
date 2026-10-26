@@ -30,6 +30,11 @@ look:
 The section is read-only. It reports what OpenSpec already knows and never
 writes to `openspec/`.
 
+## Status
+
+Milestone `01` delivered this PoC: the sidebar, the live data source, the
+session panel, the e2e proof and the nix packaging. Later milestones extend it.
+
 ## Environment and prerequisites
 
 - OpenCode v2. The development host runs v2.0.29.

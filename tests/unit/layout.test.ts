@@ -147,7 +147,11 @@ test("breakdown layout lists changes with task progress and truncates long names
   assert.equal(layout.total, "3 active changes")
   assert.ok(layout.body.some((line) => /^fix-thing\s+2\/2\s+████$/.test(line)))
   assert.ok(layout.body.some((line) => /^add-widget\s+2\/3\s+██▌$/.test(line)))
+  assert.ok(layout.body.some((line) => /^old-work\s+1\/1\s+████$/.test(line)))
   assert.ok(layout.body.some((line) => /^tasks\s+52\/228$/.test(line)))
+  assert.ok(layout.body.some((line) => /^specs\s+24$/.test(line)))
+  assert.ok(layout.body.some((line) => /^requirements\s+214$/.test(line)))
+  assert.ok(layout.body.some((line) => /^archived\s+9$/.test(line)))
 
   const longName = "a".repeat(30)
   const longLayout = layoutBreakdown({

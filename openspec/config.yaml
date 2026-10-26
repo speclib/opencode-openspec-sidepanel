@@ -58,6 +58,11 @@ context: |
   - E2E (e2e): the real OpenCode process against a fixture project. Proves the
     sidebar renders, refreshes after a turn, and degrades gracefully. The suite
     must actually run on the development host, not be skipped.
+  - Packaging: `npm run test:package` builds with nix and asserts that the
+    assembled plugin contains every runtime file. It is separate from
+    `nix flake check` because the sandbox has no nix binary.
+  - Documentation: tests/unit/docs.test.ts pins the README sections, commands
+    and rendered labels to the shipped behavior.
 
 rules:
   proposal:

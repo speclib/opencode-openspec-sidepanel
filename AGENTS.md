@@ -212,10 +212,11 @@ Testing is a first class deliverable, not an afterthought. Three layers:
 Commands:
 
 ```bash
-npm test          # unit and integration
-npm run test:e2e  # end to end
-nix flake check   # unit and integration, in a pure sandbox
-npm run typecheck # TypeScript, after npm install
+npm test             # unit and integration
+npm run test:e2e     # end to end
+npm run test:package # build with nix and verify the assembled plugin
+nix flake check      # unit and integration, in a pure sandbox
+npm run typecheck    # TypeScript, after npm install
 ```
 
 Rules:
@@ -231,6 +232,9 @@ Rules:
   write into the repository and never depend on the developer's own
   `openspec/`.
 - `nix flake check` must stay green and must not need network access.
+- `npm run test:package` builds with nix and asserts that the assembled plugin
+  contains all seven runtime files. It is separate from `nix flake check`
+  because the sandbox has no nix binary.
 - The e2e suite must actually run on this host. `opencode`, `python3` and
   `npm install` are available. A skipped e2e suite is not proof. The only
   allowed skip is on a machine without OpenCode, and then the epic cannot be
@@ -327,6 +331,7 @@ Pick up changes with `opencode service restart`, or iterate with
 ├── flake.nix                      nix flake, plain nix
 ├── nix/                           flake helper modules
 ├── package.json                   scripts and dev dependencies
+├── scripts/                       packaging verification
 ├── tsconfig.json
 ├── tests/                         unit and integration tests
 └── e2e/                           end to end tests

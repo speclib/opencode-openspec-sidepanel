@@ -114,6 +114,52 @@ test("loadStats rejects invalid JSON, invalid fields and command failures", asyn
   )
 })
 
+test("loadStats maps a buffer overflow to unavailable", async () => {
+  const exec: Exec = async () => {
+    throw Object.assign(new Error("stdout maxBuffer length exceeded"), {
+      code: "ERR_CHILD_PROCESS_STDIO_MAXBUFFER",
+    })
+  }
+  await assert.rejects(
+    loadStats("/repo", { exec, readArchive: async () => 0 }),
+    (error: unknown) =>
+      error instanceof OpenspecUnavailableError &&
+      /openspec list --json failed/.test(error.message),
+  )
+})
+
+test("loadStats forwards the abort signal and rejects an aborted command", async () => {
+  const controller = new AbortController()
+  let observed: AbortSignal | undefined
+  const exec: Exec = async (_command, _args, options) => {
+    observed = options.signal
+    return await new Promise<string>((_resolve, reject) => {
+      options.signal?.addEventListener(
+        "abort",
+        () => {
+          reject(Object.assign(new Error("aborted"), { name: "AbortError" }))
+        },
+        { once: true },
+      )
+    })
+  }
+
+  const pending = loadStats("/repo", {
+    exec,
+    signal: controller.signal,
+    readArchive: async () => 0,
+  })
+  controller.abort()
+
+  await assert.rejects(
+    pending,
+    (error: unknown) =>
+      error instanceof OpenspecUnavailableError &&
+      /openspec list --json failed/.test(error.message),
+  )
+  assert.equal(observed, controller.signal)
+})
+
 test("loadStats rejects when the root changes between queries", async () => {
   const { exec } = fakeExec((args) =>
     args.includes("--specs")
