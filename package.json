@@ -1,0 +1,46 @@
+{
+  "name": "opencode-openspec-sidepanel",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "OpenSpec stats sidebar plugin for OpenCode v2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speclib/opencode-openspec-sidepanel.git"
+  },
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "openspec"
+  ],
+  "exports": {
+    ".": "./.opencode/plugins/openspec-stats/index.ts",
+    "./tui": "./.opencode/plugins/openspec-stats/tui.tsx"
+  },
+  "files": [
+    ".opencode/plugins/openspec-stats"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "test:e2e": "node --test \"e2e/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opencode/plugin": "2.0.31"
+  },
+  "peerDependencies": {
+    "@opentui/core": ">=0.6.6",
+    "@opentui/solid": ">=0.6.6",
+    "solid-js": ">=1.9.0"
+  },
+  "devDependencies": {
+    "@opentui/core": "0.6.6",
+    "@opentui/solid": "0.6.6",
+    "@types/node": "^24",
+    "solid-js": "1.9.12",
+    "typescript": "^5"
+  }
+}

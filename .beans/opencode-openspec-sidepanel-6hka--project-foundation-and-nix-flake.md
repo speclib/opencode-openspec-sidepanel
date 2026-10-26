@@ -1,11 +1,11 @@
 ---
 # opencode-openspec-sidepanel-6hka
 title: Project foundation and nix flake
-status: todo
+status: completed
 type: epic
 priority: high
 created_at: 2026-10-26T17:04:41Z
-updated_at: 2026-10-26T17:07:32Z
+updated_at: 2026-10-26T17:48:56Z
 parent: opencode-openspec-sidepanel-u505
 ---
 
@@ -28,3 +28,12 @@ Definition of done:
 - The OpenSpec change is archived and committed as Pim Snel.
 
 OpenSpec capability: project-foundation.
+
+
+## Summary of Changes
+- Added a plain nix flake with the four supported systems listed explicitly and merged with nixpkgs.lib.genAttrs. nixpkgs is the only input.
+- Added nix/package.nix, nix/checks.nix and nix/devshell.nix. The dev shell ships Node 24, python3, jujutsu, git and nixfmt.
+- Added package.json, tsconfig.json, package-lock.json and flake.lock with @opencode/plugin pinned to 2.0.31.
+- Added placeholder server and TUI entrypoints so the package and the type check are green before the sidebar exists.
+- Added flake and plugin placeholder unit tests.
+- Verified npm test, npm run typecheck, nix flake check --offline, nix build and nix develop.

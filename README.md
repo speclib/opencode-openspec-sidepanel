@@ -3,9 +3,9 @@
 OpenCode v2 plugin that shows OpenSpec statistics in the sidebar of the current
 repository.
 
-Status: the repository is scaffolded for autonomous implementation. The plugin
-itself is not built yet. `AGENTS.md` is the operating manual and `BRIEFING.md`
-is the product brief.
+Status: the foundation is in place. The sidebar and the OpenSpec data source
+are the next epics. `AGENTS.md` is the operating manual and `BRIEFING.md` is
+the product brief.
 
 Target look:
 
@@ -37,13 +37,13 @@ A full breakdown opens in a session panel bound to `<leader>o`.
 
 ## Development
 
-Once the foundation epic is complete:
+From a clean checkout:
 
 ```bash
 nix develop          # Node 24, python3, jujutsu, nixfmt
 npm install          # dependencies for the tests and the type check
 npm test             # unit and integration tests
-npm run test:e2e     # end to end tests against the real OpenCode terminal
+npm run test:e2e     # end to end tests, once the e2e suite lands
 npm run typecheck    # TypeScript
 nix flake check      # unit and integration tests in a pure sandbox
 nix build            # assembled plugin in result/plugins/openspec-stats/

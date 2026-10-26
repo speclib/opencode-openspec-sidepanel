@@ -1,11 +1,11 @@
 ---
 # opencode-openspec-sidepanel-u505
 title: '01 PoC: OpenSpec stats sidebar plugin'
-status: todo
+status: in-progress
 type: milestone
 priority: high
 created_at: 2026-10-26T17:04:35Z
-updated_at: 2026-10-26T17:04:35Z
+updated_at: 2026-10-26T17:44:26Z
 ---
 
 Milestone 01 tracks the proof of concept for the OpenSpec stats sidebar plugin for OpenCode v2. It proves the plugin works end to end with nix, beans and OpenSpec from the start, and becomes the alpha base for later development.
