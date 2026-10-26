@@ -1,0 +1,87 @@
+schema: spec-driven
+
+context: |
+  Project: opencode-openspec-sidepanel, a project-local OpenCode v2 CLI/TUI
+  plugin that shows OpenSpec statistics in the OpenCode sidebar for the current
+  repository.
+
+  Product goal and target look: BRIEFING.md. Operating manual: AGENTS.md.
+
+  Tech stack:
+  - Runtime: OpenCode v2 on Node 24. Plugin entrypoints live at
+    .opencode/plugins/openspec-stats/index.ts (server) and
+    .opencode/plugins/openspec-stats/tui.tsx (TUI).
+  - UI: OpenTUI primitives (box, text) rendered with Solid reactivity
+    (createSignal, For, Show). Theme tokens come from the plugin context.
+  - Data source: the openspec CLI, invoked with node:child_process. The plugin
+    is read-only and never writes to openspec/.
+  - Tests: the built in node:test runner, TypeScript through Node type
+    stripping. No test framework dependency.
+  - Build and dev environment: nix flakes, plain nix, no flake-utils.
+
+  OpenSpec data:
+  - `openspec list --json` returns active changes with name, status,
+    completedTasks, totalTasks and lastModified, plus root.path. A null root
+    means there is no OpenSpec project and must be treated as unavailable.
+  - `openspec list --specs --json` returns specs with id and requirementCount.
+  - Archived changes are directories under <root.path>/openspec/changes/archive/
+    and are not listed by the CLI. Count them from the filesystem.
+  - Parse stdout only. Schema warnings go to stderr even when the command
+    succeeds. Use a 5 second timeout, an 8 MB buffer and an abort signal.
+
+  Sidebar semantics:
+  - Header OPENSPEC, total line "<n> active changes".
+  - One row per change status, sorted by count descending then name, with a
+    4-cell bar scaled to the largest status count.
+  - Summary lines: tasks completed/total, specs, requirements, archived.
+  - Muted "loading" before the first load and muted "unavailable" on failure.
+  - Cache the last stats per project under openspec.stats.cache and paint the
+    cache before the first load settles.
+  - A session panel bound to <leader>o lists every active change.
+
+  Conventions:
+  - One OpenSpec change per epic bean. Name the change after the epic in
+    kebab-case and cite the epic bean id in the proposal.
+  - Every behavior change ships with tests in the same change.
+  - Version control is jj, authored by Pim Snel, with no attribution trailers.
+    Commit after every archive.
+  - Never use OpenCode V1 plugin syntax.
+  - Keep the plugin resilient: never crash the TUI when openspec or the
+    OpenSpec root is missing.
+  - Code carries no comments unless a spec, a task or AGENTS.md requires one.
+  - Prose uses no em dashes and no curly quotes.
+
+  Testing layers:
+  - Unit (tests/unit): pure logic, no processes and no network.
+  - Integration (tests/integration): the real openspec CLI against a temporary
+    fixture project created with openspec init and openspec new change.
+  - E2E (e2e): the real OpenCode process against a fixture project. Proves the
+    sidebar renders, refreshes after a turn, and degrades gracefully. The suite
+    must actually run on the development host, not be skipped.
+
+rules:
+  proposal:
+    - Name the epic bean id and link it to this change.
+    - State the user-visible outcome and the acceptance criteria it must meet.
+    - List the non-goals so the change stays scoped.
+  design:
+    - Cover the OpenCode v2 slot and event APIs actually used, and how openspec is invoked.
+    - Note the failure modes around a missing root, a missing binary, a non-zero exit, a timeout and invalid JSON.
+    - Explain how refresh, abort handling and the per-project cache interact.
+  specs:
+    - Use the capability path named in the epic body.
+    - Write requirements as SHALL statements with WHEN/THEN scenarios.
+  tasks:
+    - Every task that changes behavior must be paired with a test task.
+    - Keep tasks small and independently verifiable.
+
+operations:
+  apply:
+    guidance:
+      - Leave the full test suite green before finishing.
+      - Add or update tests in the same change as the behavior they cover.
+      - Run the e2e suite on this host and record that it ran, not that it was skipped.
+  archive:
+    guidance:
+      - Sync the delta specs into the main specs before moving the change.
+      - After archiving, commit code plus the beans and OpenSpec files with jj as Pim Snel.
