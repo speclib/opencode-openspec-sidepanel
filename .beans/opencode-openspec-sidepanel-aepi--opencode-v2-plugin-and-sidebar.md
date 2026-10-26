@@ -1,11 +1,11 @@
 ---
 # opencode-openspec-sidepanel-aepi
 title: OpenCode v2 plugin and sidebar
-status: todo
+status: completed
 type: epic
 priority: high
 created_at: 2026-10-26T17:04:45Z
-updated_at: 2026-10-26T17:05:14Z
+updated_at: 2026-10-26T17:53:02Z
 parent: opencode-openspec-sidepanel-u505
 blocked_by:
     - opencode-openspec-sidepanel-6hka
@@ -28,3 +28,13 @@ Definition of done:
 - The OpenSpec change is archived and committed as Pim Snel.
 
 OpenSpec capability: plugin-sidebar.
+
+
+## Summary of Changes
+
+- Added `layout.ts` with the pure Stats model, status and change sorting, four-cell bars, completion bars, summary rows, column alignment and 24-character name truncation.
+- Added `setup.ts` with the disposable bag, sidebar registration wrapper and the `openspec.stats.panel` command bound to `<leader>o`.
+- Replaced the placeholder TUI with the `OPENSPEC` sidebar section and the session panel, both using theme tokens and an empty stats fixture.
+- Added 22 unit tests covering layout, sorting, bars, truncation, summary alignment, zero data, disposables, registration, the panel command and the OpenCode v2 wiring.
+- Verified with `npm test` (22 pass), `npm run typecheck`, `nix flake check` and `nix build`.
+- Archived the change as `2026-10-26-opencode-v2-plugin-and-sidebar` and added the `plugin-sidebar` spec with 6 requirements.
